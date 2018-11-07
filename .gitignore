@@ -33,3 +33,5 @@ target/
 .idea/
 .settings/
 .gitignore
+/.classpath
+/.project

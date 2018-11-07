@@ -1,10 +1,12 @@
 package com.nettyrpc.test.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.nettyrpc.registry.ServiceRegistry;
 import com.nettyrpc.server.RpcServer;
 import com.nettyrpc.test.client.HelloService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.nettyrpc.test.client.PersonService;
 
 public class RpcBootstrapWithoutSpring {
     private static final Logger logger = LoggerFactory.getLogger(RpcBootstrapWithoutSpring.class);
@@ -15,6 +17,9 @@ public class RpcBootstrapWithoutSpring {
         RpcServer rpcServer = new RpcServer(serverAddress, serviceRegistry);
         HelloService helloService = new HelloServiceImpl();
         rpcServer.addService("com.nettyrpc.test.client.HelloService", helloService);
+        
+        PersonService personService = new PersonServiceImpl();
+        rpcServer.addService("com.nettyrpc.test.client.PersonService", personService);
         try {
             rpcServer.start();
         } catch (Exception ex) {

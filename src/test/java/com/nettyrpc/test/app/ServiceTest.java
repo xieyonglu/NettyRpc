@@ -23,12 +23,13 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:client-spring.xml")
+@SuppressWarnings({"static-access", "unchecked"})
 public class ServiceTest {
 
     @Autowired
     private RpcClient rpcClient;
 
-    @Test
+	@Test
     public void helloTest1() {
         HelloService helloService = rpcClient.create(HelloService.class);
         String result = helloService.hello("World");
@@ -74,7 +75,7 @@ public class ServiceTest {
         Assert.assertEquals("Hello! Yong Huang", result.get());
     }
 
-    @Test
+	@Test
     public void helloPersonFutureTest1() throws ExecutionException, InterruptedException {
         IAsyncObjectProxy helloPersonService = rpcClient.createAsync(PersonService.class);
         int num = 5;

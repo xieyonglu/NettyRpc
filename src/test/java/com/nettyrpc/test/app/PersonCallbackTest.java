@@ -14,8 +14,10 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Created by luxiaoxun on 2016/3/17.
  */
+@SuppressWarnings({"static-access", "unchecked"})
 public class PersonCallbackTest {
-    public static void main(String[] args) {
+   
+	public static void main(String[] args) {
         ServiceDiscovery serviceDiscovery = new ServiceDiscovery("127.0.0.1:2181");
         final RpcClient rpcClient = new RpcClient(serviceDiscovery);
         final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -25,7 +27,7 @@ public class PersonCallbackTest {
             int num = 5;
             RPCFuture helloPersonFuture = client.call("GetTestPerson", "xiaoming", num);
             helloPersonFuture.addCallback(new AsyncRPCCallback() {
-                @Override
+				@Override
                 public void success(Object result) {
                     List<Person> persons = (List<Person>) result;
                     for (int i = 0; i < persons.size(); ++i) {
