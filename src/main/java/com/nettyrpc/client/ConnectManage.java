@@ -54,10 +54,13 @@ public class ConnectManage {
         return connectManage;
     }
 
+    /**
+     * ServiceDiscovery会调用这个函数，也就是说Client发现ZK结点之后会调用这个函数
+     */
     public void updateConnectedServer(List<String> allServerAddress) {
         if (allServerAddress != null) {
             if (allServerAddress.size() > 0) {  // Get available server node
-                //update local serverNodes cache
+                // update local serverNodes cache
                 HashSet<InetSocketAddress> newAllServerNodeSet = new HashSet<InetSocketAddress>();
                 for (int i = 0; i < allServerAddress.size(); ++i) {
                     String[] array = allServerAddress.get(i).split(":");
@@ -104,7 +107,7 @@ public class ConnectManage {
         }
     }
 
-    public void reconnect(final RpcClientHandler handler, final SocketAddress remotePeer) {
+    public void reconnect2(final RpcClientHandler handler, final SocketAddress remotePeer) {
         if (handler != null) {
             connectedHandlers.remove(handler);
             connectedServerNodes.remove(handler.getRemotePeer());
@@ -140,12 +143,17 @@ public class ConnectManage {
         connectedHandlers.add(handler);
         InetSocketAddress remoteAddress = (InetSocketAddress) handler.getChannel().remoteAddress();
         connectedServerNodes.put(remoteAddress, handler);
+        
+        //
         signalAvailableHandler();
     }
 
     private void signalAvailableHandler() {
         lock.lock();
         try {
+        	/**
+        	 * 唤醒在此Lock对象上等待的所有线程
+        	 */
             connected.signalAll();
         } finally {
             lock.unlock();
@@ -155,6 +163,9 @@ public class ConnectManage {
     private boolean waitingForHandler() throws InterruptedException {
         lock.lock();
         try {
+        	/**
+        	 * 导致当前线程等待，直到其他线程调用该Condition的signal()或signalAll()方法唤醒该线程
+        	 */
             return connected.await(this.connectTimeoutMillis, TimeUnit.MILLISECONDS);
         } finally {
             lock.unlock();
@@ -188,4 +199,6 @@ public class ConnectManage {
         threadPoolExecutor.shutdown();
         eventLoopGroup.shutdownGracefully();
     }
+    
 }
+

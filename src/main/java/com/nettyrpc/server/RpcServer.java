@@ -127,6 +127,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
             ChannelFuture future = bootstrap.bind(host, port).sync();
             logger.info("Server started on port {}", port);
 
+            // 往ZK里面注册服务地址
             if (serviceRegistry != null) {
                 serviceRegistry.register(serverAddress);
             }

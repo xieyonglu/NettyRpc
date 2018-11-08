@@ -43,6 +43,10 @@ public class RPCFuture implements Future<Object> {
 
     @Override
     public Object get() throws InterruptedException, ExecutionException {
+    	/**
+    	 * 以独占模式获取对象，忽略中断。
+    	 * 独占式获取锁，如果当前线程成功获取锁，那么方法就返回，否则会将当前线程放入同步队列等待。该方法会调用重写的 tryAcquire(int arg)方法判断是否可以获得锁
+    	 */
         sync.acquire(-1);
         if (this.response != null) {
             return this.response.getResult();
@@ -53,6 +57,10 @@ public class RPCFuture implements Future<Object> {
 
     @Override
     public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+    	/**
+    	 * 试图以独占模式获取对象，如果被中断则中止，如果到了给定超时时间，则会失败。
+    	 * 在 acquireInterruptibly(int) 基础上添加了超时控制，同时支持中断和超时，当在指定时间内没有获得锁时，会返回 false，获取到了返回 true
+    	 */
         boolean success = sync.tryAcquireNanos(-1, unit.toNanos(timeout));
         if (success) {
             if (this.response != null) {
@@ -79,6 +87,9 @@ public class RPCFuture implements Future<Object> {
 
     public void done(RpcResponse reponse) {
         this.response = reponse;
+        /**
+         * 独占式释放锁，该方法会在释放锁后，将同步队列中第一个等待节点唤醒
+         */
         sync.release(1);
         invokeCallbacks();
         // Threshold
@@ -135,11 +146,17 @@ public class RPCFuture implements Future<Object> {
         private final int done = 1;
         private final int pending = 0;
 
+        /**
+         * 尝试获取
+         */
         @Override
         protected boolean tryAcquire(int arg) {
             return getState() == done;
         }
 
+        /**
+         * 尝试释放
+         */
         @Override
         protected boolean tryRelease(int arg) {
             if (getState() == pending) {

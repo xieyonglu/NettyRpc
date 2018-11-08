@@ -18,11 +18,11 @@ import java.util.HashMap;
  * Created by luxiaoxun on 2016-03-09.
  */
 public class JsonUtil {
+	
     private static ObjectMapper objMapper = new ObjectMapper();
 
     static {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         objMapper.setDateFormat(dateFormat);
         objMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objMapper.enable(SerializationFeature.INDENT_OUTPUT);
