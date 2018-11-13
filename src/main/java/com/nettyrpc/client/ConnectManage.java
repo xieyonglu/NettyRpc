@@ -176,6 +176,7 @@ public class ConnectManage {
         int size = connectedHandlers.size();
         while (isRuning && size <= 0) {
             try {
+            	// 等待所有addHandler执行完在获取handler
                 boolean available = waitingForHandler();
                 if (available) {
                     size = connectedHandlers.size();
