@@ -1,9 +1,10 @@
 package com.nettyrpc.client;
 
+import com.nettyrpc.model.RpcRequest;
+import com.nettyrpc.model.RpcResponse;
 import com.nettyrpc.protocol.RpcDecoder;
 import com.nettyrpc.protocol.RpcEncoder;
-import com.nettyrpc.protocol.RpcRequest;
-import com.nettyrpc.protocol.RpcResponse;
+
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

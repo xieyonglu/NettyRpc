@@ -1,4 +1,4 @@
-package com.nettyrpc.client.proxy;
+package com.nettyrpc.proxy;
 
 import com.nettyrpc.client.RPCFuture;
 

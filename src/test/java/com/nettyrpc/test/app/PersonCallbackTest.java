@@ -1,15 +1,15 @@
 package com.nettyrpc.test.app;
 
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
 import com.nettyrpc.client.AsyncRPCCallback;
 import com.nettyrpc.client.RPCFuture;
 import com.nettyrpc.client.RpcClient;
-import com.nettyrpc.client.proxy.IAsyncObjectProxy;
+import com.nettyrpc.proxy.IAsyncObjectProxy;
 import com.nettyrpc.registry.ServiceDiscovery;
-import com.nettyrpc.test.client.PersonService;
 import com.nettyrpc.test.client.Person;
-
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
+import com.nettyrpc.test.client.PersonService;
 
 /**
  * Created by luxiaoxun on 2016/3/17.

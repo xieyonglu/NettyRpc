@@ -1,13 +1,13 @@
 package com.nettyrpc.client;
 
-import com.nettyrpc.client.proxy.IAsyncObjectProxy;
-import com.nettyrpc.client.proxy.ObjectProxy;
-import com.nettyrpc.registry.ServiceDiscovery;
-
 import java.lang.reflect.Proxy;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import com.nettyrpc.proxy.IAsyncObjectProxy;
+import com.nettyrpc.proxy.ObjectProxy;
+import com.nettyrpc.registry.ServiceDiscovery;
 
 /**
  * RPC Client（Create RPC proxy）
@@ -21,8 +21,7 @@ public class RpcClient {
     
     private ServiceDiscovery serviceDiscovery;
     
-    private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(16, 16,
-            600L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(65536));
+    private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(16, 16, 600L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(65536));
 
     public RpcClient(String serverAddress) {
         this.serverAddress = serverAddress;

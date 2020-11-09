@@ -1,12 +1,12 @@
 package com.nettyrpc.test.app;
 
+import java.util.concurrent.TimeUnit;
+
 import com.nettyrpc.client.RPCFuture;
 import com.nettyrpc.client.RpcClient;
-import com.nettyrpc.client.proxy.IAsyncObjectProxy;
+import com.nettyrpc.proxy.IAsyncObjectProxy;
 import com.nettyrpc.registry.ServiceDiscovery;
 import com.nettyrpc.test.client.HelloService;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by luxiaoxun on 2016/3/16.

@@ -1,10 +1,25 @@
 package com.nettyrpc.server;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.collections4.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import com.nettyrpc.model.RpcRequest;
+import com.nettyrpc.model.RpcResponse;
 import com.nettyrpc.protocol.RpcDecoder;
 import com.nettyrpc.protocol.RpcEncoder;
-import com.nettyrpc.protocol.RpcRequest;
-import com.nettyrpc.protocol.RpcResponse;
 import com.nettyrpc.registry.ServiceRegistry;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -13,19 +28,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.*;
-
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import org.apache.commons.collections4.MapUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 /**
  * RPC Server
@@ -84,8 +87,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         if (threadPoolExecutor == null) {
             synchronized (RpcServer.class) {
                 if (threadPoolExecutor == null) {
-                    threadPoolExecutor = new ThreadPoolExecutor(16, 16, 600L,
-                            TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(65536));
+                    threadPoolExecutor = new ThreadPoolExecutor(16, 16, 600L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(65536));
                 }
             }
         }

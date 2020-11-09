@@ -1,11 +1,12 @@
 package com.nettyrpc.test.app;
 
-import com.nettyrpc.client.RPCFuture;
-import com.nettyrpc.client.RpcClient;
-import com.nettyrpc.client.proxy.IAsyncObjectProxy;
-import com.nettyrpc.test.client.PersonService;
-import com.nettyrpc.test.client.HelloService;
-import com.nettyrpc.test.client.Person;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import com.nettyrpc.client.RPCFuture;
+import com.nettyrpc.client.RpcClient;
+import com.nettyrpc.proxy.IAsyncObjectProxy;
+import com.nettyrpc.test.client.HelloService;
+import com.nettyrpc.test.client.Person;
+import com.nettyrpc.test.client.PersonService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:client-spring.xml")

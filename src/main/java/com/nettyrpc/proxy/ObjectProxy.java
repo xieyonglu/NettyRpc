@@ -1,15 +1,16 @@
-package com.nettyrpc.client.proxy;
-
-import com.nettyrpc.client.ConnectManage;
-import com.nettyrpc.client.RPCFuture;
-import com.nettyrpc.client.RpcClientHandler;
-import com.nettyrpc.protocol.RpcRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.nettyrpc.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.nettyrpc.client.ConnectManage;
+import com.nettyrpc.client.RPCFuture;
+import com.nettyrpc.client.RpcClientHandler;
+import com.nettyrpc.model.RpcRequest;
 
 /**
  * Created by luxiaoxun on 2016-03-16.
@@ -33,9 +34,7 @@ public class ObjectProxy<T> implements InvocationHandler, IAsyncObjectProxy {
             } else if ("hashCode".equals(name)) {
                 return System.identityHashCode(proxy);
             } else if ("toString".equals(name)) {
-                return proxy.getClass().getName() + "@" +
-                        Integer.toHexString(System.identityHashCode(proxy)) +
-                        ", with InvocationHandler " + this;
+                return proxy.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(proxy)) + ", with InvocationHandler " + this;
             } else {
                 throw new IllegalStateException(String.valueOf(method));
             }
@@ -47,6 +46,7 @@ public class ObjectProxy<T> implements InvocationHandler, IAsyncObjectProxy {
         request.setMethodName(method.getName());
         request.setParameterTypes(method.getParameterTypes());
         request.setParameters(args);
+        
         // Debug
         LOGGER.debug(method.getDeclaringClass().getName());
         LOGGER.debug(method.getName());

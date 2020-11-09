@@ -1,25 +1,33 @@
 package com.nettyrpc.client;
 
-import com.nettyrpc.protocol.RpcRequest;
-import com.nettyrpc.protocol.RpcResponse;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.SocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.nettyrpc.model.RpcRequest;
+import com.nettyrpc.model.RpcResponse;
+
+import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
  * Created by luxiaoxun on 2016-03-14.
  */
 public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
+	
     private static final Logger logger = LoggerFactory.getLogger(RpcClientHandler.class);
 
     private ConcurrentHashMap<String, RPCFuture> pendingRPC = new ConcurrentHashMap<>();
 
     private volatile Channel channel;
+    
     private SocketAddress remotePeer;
 
     public Channel getChannel() {
